@@ -19,7 +19,7 @@ sudo apt-get install --no-install-recommends build-essential cmake git unzip wge
 sudo apt-get install libprotobuf-dev libleveldb-dev libsnappy-dev \
 libhdf5-serial-dev protobuf-compiler -y
 sudo apt-get install --no-install-recommends libboost-all-dev -y
-# BLAS 
+# BLAS
 # To Do: Switch to OPENBLAS
 sudo apt-get install libatlas-base-dev -y
 # Remaining Dependencies
@@ -40,13 +40,14 @@ git checkout ssd
 /bin/echo -e "\e[1;32mInstalling OpenCV Libraries.\e[0m"
 # Install OpenCV Libraries
 cd $HOME
+sudo apt-get install libopencv-dev
 sudo ./OpenCV4Tegra/ocv.sh
 
 /bin/echo -e "\e[1;32mOverlocking Jetson.\e[0m"
 # save current settings
-sudo ./jetson_clocks.sh --store default-clocks
+#sudo ./jetson_clocks.sh --store default-clocks
 # load performance-optimized profile
-sudo ./jetson_clocks.sh
+#sudo ./jetson_clocks.sh
 
 /bin/echo -e "\e[1;32mLoading Caffe pip Dependencies.\e[0m"
 pip install --upgrade pip && \
@@ -62,6 +63,15 @@ cmake -DCUDA_USE_STATIC_CUDA_RUNTIME=OFF ..
 make -j"$(nproc)" all
 # make install ???
 # make symlink ???
+
+#if [[ -z $(cat ~/.bashrc | grep "$HOME/caffe-ssd") ]] ; then
+#    echo -e "\n# Adds Caffe to the PATH variable" >> ~/.bashrc
+#    echo "export CAFFE_ROOT=$HOME/caffe-ssd" >> ~/.bashrc
+#    echo "export PYCAFFE_ROOT=$CAFFE_ROOT/python" >> ~/.bashrc
+#    echo "export PYTHONPATH=$PYCAFFE_ROOT:$PYTHONPATH" >> ~/.bashrc
+#    echo "export PATH=$CAFFE_ROOT/build/tools:$PYCAFFE_ROOT:$PATH" >> ~/.bashrc
+#    source ~/.bashrc
+#fi
 
 # Run the tests to make sure everything works
 #/bin/echo -e "\e[1;32mRunning Caffe Tests.\e[0m"
